@@ -45,7 +45,32 @@
  * @property {string} user a ten-character-string of capital and non-capital characters
  * @property {string} image cdn url
  * @property {string|null} sharedPost
- * @property {string} stats
+ * @property {string} stats a ten-character-string of capital and non-capital characters
+ */
+
+/**
+ * @typedef {Object} PostDetailed
+ * @property {string} title 
+ * @property {string} objectId a ten-character-string of capital and non-capital characters
+ * @property {string} updatedAt format: "YYYY-MM-DD hh:mm:ss" example: "2022-07-30 12:02:21"
+ * @property {string} createdAt format: "YYYY-MM-DD hh:mm:ss" example: "2022-07-30 12:02:21"
+ * @property {number} type
+ * @property {number} category
+ * @property {string} user a ten-character-string of capital and non-capital characters
+ * @property {string} image cdn url
+ * @property {string|null} sharedPost
+ * @property {string} stats a ten-character-string of capital and non-capital characters
+ * @property {string} program cdn url
+ * @property {string} detail
+ */
+
+/**
+ * @typedef {Object} PostDetail
+ * @property {PostDetailed} post
+ * @property {User} user
+ * @property {PostStat} stats
+ * @property {any[]} comments
+ * @property {any[]} users
  */
 
 export {};

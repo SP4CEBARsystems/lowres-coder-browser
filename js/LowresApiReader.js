@@ -4,6 +4,7 @@
  * @typedef {import("./lowresApiTypes.js").User} User
  * @typedef {import("./lowresApiTypes.js").PostStat} PostStat
  * @typedef {import("./lowresApiTypes.js").Post} Post
+ * @typedef {import("./lowresApiTypes.js").PostDetail} PostDetail
  */
 
 import UiBuilder from "./UiBuilder.js";
@@ -83,9 +84,9 @@ export default class LowresApiReader {
     /**
      * 
      * @param {string} id 
-     * @returns {Promise<Object>}
+     * @returns {Promise<PostDetail>}
      */
     async loadId(id) {
-        return Loader.fetchRoute(`${this.domain}/posts`, id);
+        return /** @type {Promise<PostDetail>} */ (Loader.fetchRoute(`${this.domain}/posts`, id));
     }
 }
