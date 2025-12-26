@@ -9,19 +9,19 @@ body {
 }
 
 a:link {
-  color: lightblue;
+    color: lightblue;
 }
 
 a:visited {
-  color: pink;
+    color: pink;
 }
 
 a:hover {
-  color: blue;
+    color: blue;
 }
 
 a:active {
-  color: blue;
+    color: blue;
 }
 
 header {
@@ -46,4 +46,28 @@ aside {
 
 aside a {
     padding: 0 10px;
+}
+
+.posts-list {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    padding: 20px 10px;
+    gap: 20px;
+}
+
+.post {
+    border: 1px;
+    width: 200px;
+    height: 310px;
+}
+
+.post p {
+    overflow: hidden;
+}
+
+.post-image-wrapper {
+    width: 128px;
+    height: 128px;
 }

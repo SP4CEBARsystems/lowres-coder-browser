@@ -1,4 +1,4 @@
-class Loader {
+export default class Loader {
     /**
      * Load JSON data from a single route
      * @param {string} route - The URL/path to the JSON file

@@ -1,13 +1,18 @@
-export default class LowresApiReader {
-    domain = 'https://lowresapi.timokloss.com';
+/**
+ * @typedef {import("./lowresApiTypes.js").Meta} Meta
+ * @typedef {import("./lowresApiTypes.js").Posts} Posts
+ * @typedef {import("./lowresApiTypes.js").User} User
+ * @typedef {import("./lowresApiTypes.js").PostStat} PostStat
+ * @typedef {import("./lowresApiTypes.js").Post} Post
+ */
 
-    /**
-     * @typedef {import("./lowresApiTypes.js").Meta} Meta
-     * @typedef {import("./lowresApiTypes.js").Posts} Posts
-     * @typedef {import("./lowresApiTypes.js").User} User
-     * @typedef {import("./lowresApiTypes.js").PostStat} PostStat
-     * @typedef {import("./lowresApiTypes.js").Post} Post
-     */
+import UiBuilder from "./UiBuilder.js";
+import Loader from "./Loader.js";
+
+export default class LowresApiReader {
+    // domain = 'http://localhost';
+    // domain = 'https://lowresapi.timokloss.com';
+    // domain = 'https://lowres-api-proxy.bjcrezee.workers.dev';
 
     // /**
     //  * @type {Post}
@@ -51,8 +56,20 @@ export default class LowresApiReader {
     //     essential: 0
     // }
 
-    constructor () {
+    constructor() {
         this.posts = this.fetchPosts();
+        this.posts.then((obj => this.onLoad(obj)))
+            .catch((error)=>console.error('returned error!', error));
+    }
+
+    /**
+     * 
+     * @param {Posts} obj 
+     */
+    onLoad(obj) {
+        console.log('returned', obj)
+        const container = document.body;
+        container.appendChild(UiBuilder.buildPostsList(obj));
     }
 
     /**
