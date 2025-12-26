@@ -1,85 +1,74 @@
 export default class LowresApiReader {
-    static domain = 'https://lowresapi.timokloss.com';
+    domain = 'https://lowresapi.timokloss.com';
 
     /**
-     * @typedef {Object} User
-     * @property {string} objectId
-     * @property {string} updatedAt
-     * @property {string} createdAt
-     * @property {string} username
-     * @property {number} role
+     * @typedef {import("./lowresApiTypes.js").Meta} Meta
+     * @typedef {import("./lowresApiTypes.js").Posts} Posts
+     * @typedef {import("./lowresApiTypes.js").User} User
+     * @typedef {import("./lowresApiTypes.js").PostStat} PostStat
+     * @typedef {import("./lowresApiTypes.js").Post} Post
      */
 
-    /**
-     * @typedef {Object} PostStat
-     * @property {string} objectId
-     * @property {string} updatedAt
-     * @property {string} createdAt
-     * @property {string} post
-     * @property {number} numDownloads
-     * @property {number} numComments
-     * @property {number} numLikes
-     * @property {number} featured
-     * @property {number} essential
-     */
+    // /**
+    //  * @type {Post}
+    //  */
+    // hi = {
+    //     title: '',
+    //     objectId: '',
+    //     updatedAt: '',
+    //     createdAt: '',
+    //     type: 0,
+    //     category: 0,
+    //     user: '',
+    //     image: '',
+    //     sharedPost: null,
+    //     stats: ''
+    // }
 
-    /**
-     * @typedef {Object} Post
-     * @property {string} title
-     * @property {string} objectId
-     * @property {string} updatedAt
-     * @property {string} createdAt
-     * @property {number} type
-     * @property {number} category
-     * @property {string} user
-     * @property {string} image
-     * @property {string|null} sharedPost
-     * @property {string} stats
-     */
+    // /**
+    //  * @type {User}
+    //  */
+    // hiss = {
+    //     objectId: '',
+    //     updatedAt: '',
+    //     createdAt: '',
+    //     username: '',
+    //     role: 0
+    // }
 
-    /**
-     * @type {Post}
-     */
-    hi = {
-        title: '',
-        objectId: '',
-        updatedAt: '',
-        createdAt: '',
-        type: 0,
-        category: 0,
-        user: '',
-        image: '',
-        sharedPost: null,
-        stats: ''
+    // /**
+    //  * @type {PostStat}
+    //  */
+    // his = {
+    //     objectId: '',
+    //     updatedAt: '',
+    //     createdAt: '',
+    //     post: '',
+    //     numDownloads: 0,
+    //     numComments: 0,
+    //     numLikes: 0,
+    //     featured: 0,
+    //     essential: 0
+    // }
+
+    constructor () {
+        this.posts = this.fetchPosts();
     }
 
     /**
-     * @type {User}
+     * 
+     * @returns {Promise<Posts>}
      */
-    hiss = {
-        objectId: '',
-        updatedAt: '',
-        createdAt: '',
-        username: '',
-        role: 0
+    fetchPosts() {
+        return /** @type {Promise<Posts>} */ (Loader.fetchRoute(`${this.domain}/posts`));
     }
 
     /**
-     * @type {PostStat}
+     * 
+     * @param {string} id 
+     * @returns {Promise<Object>}
      */
-    his = {
-        objectId: '',
-        updatedAt: '',
-        createdAt: '',
-        post: '',
-        numDownloads: 0,
-        numComments: 0,
-        numLikes: 0,
-        featured: 0,
-        essential: 0
-    }
-
-    static fetchPosts() {
-        const route = `${this.domain}/posts`;
+    async loadId(id) {
+        return Loader.fetchRoute(`${this.domain}/posts`, id);
     }
 }
