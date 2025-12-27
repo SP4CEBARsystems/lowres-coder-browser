@@ -61,6 +61,9 @@ aside a {
     border: 1px;
     width: 200px;
     height: 310px;
+}
+
+#post-list .post-card {
     cursor: pointer;
 }
 
@@ -80,6 +83,10 @@ button {
 
 .hide {
     display: none;
+}
+
+#return-to-post-list-button {
+    margin-bottom: 2em;
 }
 
 /* #post-list {
