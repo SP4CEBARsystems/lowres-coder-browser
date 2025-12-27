@@ -19,6 +19,22 @@ export default class Loader {
     }
 
     /**
+     * Load JSON data from a single route
+     * @param {string} route - The URL/path to the string
+     * @returns {Promise<string>} Parsed JSON object
+     */
+    static async fetchString(route) {
+        try {
+            const response = await fetch(route);
+            if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+            return await response.text();
+        } catch (error) {
+            console.error(`Failed to load from ${route}:`, error);
+            throw error;
+        }
+    }
+
+    /**
      * Load JSON data from multiple routes
      * @param {string[]} routes - Array of URLs/paths to JSON files
      * @returns {Promise<Object[]>} Array of parsed JSON objects

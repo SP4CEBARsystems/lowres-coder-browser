@@ -14,7 +14,10 @@ import ElementNavigator from "./ElementNavigator.js";
 export default class LowresApiReader {
     // domain = 'http://localhost';
     // domain = 'https://lowresapi.timokloss.com';
-    domain = 'https://lowres-api-proxy.bjcrezee.workers.dev';
+    domain = 'https://lowres-api-proxy.bjcrezee.workers.dev/lowresapi';
+
+    cdnSource = 'http://lowresfiles.timokloss.com';
+    cdnProxy = 'https://lowres-api-proxy.bjcrezee.workers.dev/lowresfiles';
 
     // /**
     //  * @type {Post}
@@ -85,7 +88,7 @@ export default class LowresApiReader {
      */
     onPostClick(id) {
         ElementNavigator.myNavigator?.toPostDetails();
-        this.loadPost(id).then((obj => this.onPostLoad(obj)))
+        this.fetchPost(id).then((obj => this.onPostLoad(obj)))
             .catch((error)=>console.error('returned error!', error));
             
         const container = document.getElementById('post-details');
@@ -98,18 +101,18 @@ export default class LowresApiReader {
     
     /**
      * 
-     * @param {PostDetail} obj 
+     * @param {{post:PostDetail, code:string}} obj 
      * @returns 
      */
-    onPostLoad(obj) {
-        console.log('returned', obj)
+    onPostLoad({post, code}) {
+        console.log('returned', post)
         const container = document.getElementById('post-details');
         if (!container) {
             console.error('no container for the details of a post');
             return;
         }
         container.innerHTML = '';
-        container.appendChild(UiBuilder.buildPostCard((id) => this.onPostClick(id), obj.post, obj.user, obj.stats));
+        container.appendChild(UiBuilder.buildDetailedPostCard((id) => this.onPostClick(id), post.post, post.user, post.stats, code));
     }
 
     /**
@@ -121,11 +124,14 @@ export default class LowresApiReader {
     }
 
     /**
-     * 
+     * Fetches a post and its code
      * @param {string} id 
-     * @returns {Promise<PostDetail>}
+     * @returns {Promise<{post:PostDetail, code:string}>}
      */
-    async loadPost(id) {
-        return /** @type {Promise<PostDetail>} */ (Loader.fetchRoute(`${this.domain}/posts`, id));
+    async fetchPost(id) {
+        const post = await /** @type {Promise<PostDetail>} */ (Loader.fetchRoute(`${this.domain}/posts`, id));
+        const programUrl = post?.post?.program?.replace(this.cdnSource, this.cdnProxy);
+        const code = await Loader.fetchString(programUrl);
+        return {post, code};
     }
 }
