@@ -14,7 +14,7 @@ import ElementNavigator from "./ElementNavigator.js";
 export default class LowresApiReader {
     // domain = 'http://localhost';
     // domain = 'https://lowresapi.timokloss.com';
-    // domain = 'https://lowres-api-proxy.bjcrezee.workers.dev';
+    domain = 'https://lowres-api-proxy.bjcrezee.workers.dev';
 
     // /**
     //  * @type {Post}
