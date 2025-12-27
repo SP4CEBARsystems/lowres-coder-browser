@@ -87,9 +87,7 @@ class UiBuilder {
                 <span class="comments">💬 ${stat?.numComments || 0}</span>
                 <span class="downloads">⬇️ ${stat?.numDownloads || 0}</span>
             </div>
-            <pre><code>
-                ${code}
-            </code></pre>
+            <pre><code>${code}</code></pre>
         `;
         card.addEventListener('click', () => onClickHandler(post.objectId))
 
