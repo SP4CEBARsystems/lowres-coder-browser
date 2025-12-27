@@ -57,13 +57,14 @@ aside a {
     gap: 20px;
 }
 
-.post {
+.post-card {
     border: 1px;
     width: 200px;
     height: 310px;
+    cursor: pointer;
 }
 
-.post p {
+.post-card p {
     overflow: hidden;
 }
 
@@ -71,3 +72,25 @@ aside a {
     width: 128px;
     height: 128px;
 }
+
+button {
+    width: 7em;
+    height: 3em;
+}
+
+.hide {
+    display: none;
+}
+
+/* #post-list {
+    overflow-y: scroll;
+    height: fit-content;
+    margin-bottom: 100vh;
+}
+
+#post-details {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    margin-bottom: 0;
+} */

@@ -31,16 +31,16 @@ class UiBuilder {
 
     /**
      * Build a post card element
+     * @param {(id: string) => void} onClickHandler
      * @param {Post} post
      * @param {User} [user]
      * @param {PostStat} [stat]
      * @returns {HTMLElement}
      */
-    static buildPostCard(post, user, stat) {
+    static buildPostCard(onClickHandler, post, user, stat) {
         const card = document.createElement('div');
         card.className = 'post-card';
         card.innerHTML = `
-        <article class="post">
             <div class="post-image-wrapper">
                 <img src="${this.escapeHtml(post.image)}" alt="${this.escapeHtml(post.title)}" class="post-image">
             </div>
@@ -54,24 +54,27 @@ class UiBuilder {
                 <span class="comments">💬 ${stat?.numComments || 0}</span>
                 <span class="downloads">⬇️ ${stat?.numDownloads || 0}</span>
             </div>
-        </article>
         `;
+        card.addEventListener('click', () => onClickHandler(post.objectId))
+
+
         return card;
     }
 
     /**
      * Build a posts list from Posts object
      * @param {Posts} postsData
+     * @param {(id: string) => void} onClickHandler
      * @returns {HTMLElement}
      */
-    static buildPostsList(postsData) {
+    static buildPostsList(postsData, onClickHandler) {
         const container = document.createElement('section');
         container.className = 'posts-list';
 
         postsData.posts.forEach(post => {
             const user = postsData.users.find(u => u.objectId === post.user);
             const stat = postsData.postStats.find(s => s.post === post.objectId);
-            const postCard = this.buildPostCard(post, user, stat);
+            const postCard = this.buildPostCard(onClickHandler, post, user, stat);
             container.appendChild(postCard);
         });
 

@@ -9,11 +9,12 @@
 
 import UiBuilder from "./UiBuilder.js";
 import Loader from "./Loader.js";
+import ElementNavigator from "./ElementNavigator.js";
 
 export default class LowresApiReader {
     // domain = 'http://localhost';
     // domain = 'https://lowresapi.timokloss.com';
-    domain = 'https://lowres-api-proxy.bjcrezee.workers.dev';
+    // domain = 'https://lowres-api-proxy.bjcrezee.workers.dev';
 
     // /**
     //  * @type {Post}
@@ -69,8 +70,46 @@ export default class LowresApiReader {
      */
     onLoad(obj) {
         console.log('returned', obj)
-        const container = document.body;
-        container.appendChild(UiBuilder.buildPostsList(obj));
+        const container = document.getElementById('post-list');
+        if (!container) {
+            console.error('no container for the list of posts');
+            return;
+        }
+        container.innerHTML = '';
+        container.appendChild(UiBuilder.buildPostsList(obj, (id) => this.onPostClick(id)));
+    }
+
+    /**
+     * 
+     * @param {string} id 
+     */
+    onPostClick(id) {
+        ElementNavigator.myNavigator?.toPostDetails();
+        this.loadPost(id).then((obj => this.onPostLoad(obj)))
+            .catch((error)=>console.error('returned error!', error));
+            
+        const container = document.getElementById('post-details');
+        if (!container) {
+            console.error('no container for the details of a post');
+            return;
+        }
+        container.textContent = 'Loading...';
+    }
+    
+    /**
+     * 
+     * @param {PostDetail} obj 
+     * @returns 
+     */
+    onPostLoad(obj) {
+        console.log('returned', obj)
+        const container = document.getElementById('post-details');
+        if (!container) {
+            console.error('no container for the details of a post');
+            return;
+        }
+        container.innerHTML = '';
+        container.appendChild(UiBuilder.buildPostCard((id) => this.onPostClick(id), obj.post, obj.user, obj.stats));
     }
 
     /**
@@ -86,7 +125,7 @@ export default class LowresApiReader {
      * @param {string} id 
      * @returns {Promise<PostDetail>}
      */
-    async loadId(id) {
+    async loadPost(id) {
         return /** @type {Promise<PostDetail>} */ (Loader.fetchRoute(`${this.domain}/posts`, id));
     }
 }
